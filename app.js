@@ -8,7 +8,7 @@ const date = require(__dirname + "/date.js");
 const app = express();
 
 app.set('view engine', 'ejs');
-    
+
 mongoose.connect('mongodb+srv://Giorgio:Provokatori5@cluster0.tu3o0b2.mongodb.net/todolistDB',{useNewUrlParser: true})
 .then(() => {
     console.log("Connected to MongoDB");
@@ -74,7 +74,9 @@ app.get("/",function(req, res){
 })
 app.post("/",function(req,res){
     const itemName = req.body.newItem;
-    const listName = req.body.list
+    const listName = req.body.list || date.getDate();;
+
+   
 
     const item = new Items({
         name: itemName
@@ -85,6 +87,7 @@ app.post("/",function(req,res){
     }else{
         List.findOne({name:listName})
         .then((foundList)=>{
+
             foundList.items.push(item);
             foundList.save();
             res.redirect("/"+listName);
@@ -138,8 +141,8 @@ app.get("/:customListName",function(req,res){
             list.save();
             res.redirect("/"+ customListName);
         }else{
-            const lenghtTwo = findlist.items.lenght;
-            res.render("list", {listTitle: findlist.name,lenGht: lenghtTwo, newListItem: findlist.items})
+            const lenghtTwo = findlist.items.length;
+             res.render("list", {listTitle: findlist.name,lenGht: lenghtTwo, newListItem: findlist.items})
         }
     })
     .catch((err)=>{
@@ -149,6 +152,6 @@ app.get("/:customListName",function(req,res){
 app.get("/about", function(req,res){
     res.render("about");
 })
-app.listen(process.env.PORT || 3000,function(){
-    console.log("The server running on a port 3000");
-})
+app.listen(3000,function(){
+    console.log("Server running on port 3000");
+})    
