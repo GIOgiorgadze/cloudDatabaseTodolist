@@ -9,7 +9,7 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
-mongoose.connect('mongodb+srv://Giorgio:Provokatori5@cluster0.tu3o0b2.mongodb.net/todolistDB',{useNewUrlParser: true})
+mongoose.connect(`mongodb+srv://Giorgio:${process.env.OPEN_PASSWORD}@cluster0.tu3o0b2.mongodb.net/todolistDB`,{useNewUrlParser: true})
 .then(() => {
     console.log("Connected to MongoDB");
 })
